@@ -17,8 +17,6 @@ public class Desconto {
 		System.out.println("Digite a taxa de desconto sem o simbolo de %: ");
 		taxa = entrada.nextDouble();
 		
-		System.out.println(": ");
-		
 		valor = preco * (taxa / 100);
 		total = preco - valor;
 		
