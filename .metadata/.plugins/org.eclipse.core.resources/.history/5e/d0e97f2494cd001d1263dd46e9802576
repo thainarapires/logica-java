@@ -1,0 +1,21 @@
+package br.com.logica.repeticao;
+
+import javax.swing.JOptionPane;
+
+public class Potencia {
+
+
+		public static void main(String[] args) {
+		    int n1, n2, rs = 0;
+
+		    n1 = Integer.parseInt(JOptionPane.showInputDialog("Entre com a base da potência"));
+		    n2 = Integer.parseInt(JOptionPane.showInputDialog("Entre com o expoente"));
+
+		    for (int i = 0; i <= n2; i++) {
+		        rs += Math.pow(n1, n2);
+		    }
+
+		    JOptionPane.showMessageDialog(null, "O resultado da soma das potências é: " + rs);
+		}
+	}
+

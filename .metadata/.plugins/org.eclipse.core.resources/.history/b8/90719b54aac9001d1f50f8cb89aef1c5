@@ -1,0 +1,37 @@
+package br.com.logica.desvioif;
+
+import javax.swing.JOptionPane;
+
+public class EstruturaIF2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+		//JOPtionPane.sohwMessageDialog(null, "Olá", "Alerta", "JOptionPane.WARNING_MESSAGE);
+	
+		JOptionPane.showInputDialog("Digite algo: ");
+		
+		//vamos criar um programa para calcular
+		//media do aluno. Teremos de inserir 4 notas,
+		//calcular media destas 4 notas e exibir,
+		//o resultado ao final.
+		
+		double nota1,nota2,nota3,nota4,media;
+		
+		nota1= Double.parseDouble (JOptionPane.showInputDialog("Digite a primeira nota do aluno"));
+		
+		nota2= Double.parseDouble (JOptionPane.showInputDialog("Digite a segunda nota do aluno"));
+		
+		nota3= Double.parseDouble (JOptionPane.showInputDialog("Digite a terceira nota do aluno"));
+		
+		nota4= Double.parseDouble (JOptionPane.showInputDialog("Digite a quarta nota do aluno"));
+		
+		media = (nota1 + nota2 + nota3 + nota4) /4;
+		
+		if(media >=5)
+			JOptionPane.showMessageDialog(null, "A médica do aluno é" + media + "O aluno está aprovado");
+		else
+			JOptionPane.showMessageDialog(null, "O aluno está reprovado");
+	}
+
+}
