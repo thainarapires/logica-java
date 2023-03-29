@@ -34,7 +34,6 @@ public class Agenda extends JFrame {
 	private JTextField txtFone;
 	private JTextField txtNome;
 	private JTextField txtEmail;
-	private JLabel lblStatus;
 
 	/**
 	 * Launch the application.
@@ -164,11 +163,11 @@ public class Agenda extends JFrame {
 		btnNewButton.setBounds(316, 26, 41, 41);
 		contentPane.add(btnNewButton);
 		
-		lblStatus = new JLabel("");
-		lblStatus.setToolTipText("");
-		lblStatus.setIcon(new ImageIcon(Agenda.class.getResource("/img/dataoff.png")));
-		lblStatus.setBounds(413, 211, 48, 48);
-		contentPane.add(lblStatus);
+		JLabel lblNewLabel_2 = new JLabel("");
+		lblNewLabel_2.setToolTipText("");
+		lblNewLabel_2.setIcon(new ImageIcon(Agenda.class.getResource("/img/dataoff.png")));
+		lblNewLabel_2.setBounds(413, 211, 48, 48);
+		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblNewLabel_3 = new JLabel("");
 		lblNewLabel_3.setToolTipText("Sobre");
@@ -196,11 +195,9 @@ public class Agenda extends JFrame {
 	//abrir a conexão
 		con = dao.conectar();
 		if (con == null) {
-			//System.out.println("Erro de conexão");
-			lblStatus.setIcon(new ImageIcon(Agenda.class.getResource("/img/dataoff.png")));
+			System.out.println("Erro de conexão");
 		} else {
-			//System.out.println("Banco conectado");
-			lblStatus.setIcon(new ImageIcon(Agenda.class.getResource("/img/dataon.png")));
+			System.out.println("Banco conectado");
 		}
 		//Nunca esquecer de fechar a conexão
 		con.close();
