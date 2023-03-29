@@ -18,8 +18,6 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class Agenda extends JFrame {
 	//Instanciar objetos JDBC
@@ -55,13 +53,6 @@ public class Agenda extends JFrame {
 	 * Create the frame.
 	 */
 	public Agenda() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowActivated(WindowEvent e) {
-			//ativação da janela 
-				status();
-			}
-		});
 		setBackground(new Color(255, 255, 255));
 		setResizable(false);
 		setTitle("Agenda de contatos");

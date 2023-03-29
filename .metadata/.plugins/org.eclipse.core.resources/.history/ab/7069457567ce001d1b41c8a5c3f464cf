@@ -58,8 +58,6 @@ public class Agenda extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
-			//ativação da janela 
-				status();
 			}
 		});
 		setBackground(new Color(255, 255, 255));

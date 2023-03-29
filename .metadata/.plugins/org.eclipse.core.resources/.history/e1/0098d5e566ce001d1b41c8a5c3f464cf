@@ -1,30 +1,34 @@
 package view;
 
-import java.awt.Color;
-import java.awt.Cursor;
 import java.awt.EventQueue;
-import java.awt.SystemColor;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import model.DAO;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.JScrollPane;
+import java.awt.Toolkit;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
+import java.awt.Cursor;
+import java.awt.Window.Type;
+import javax.swing.JCheckBox;
+import javax.swing.JMenuBar;
+import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JTable;
+import javax.swing.JPasswordField;
+import javax.swing.JEditorPane;
+import javax.swing.JToggleButton;
 
 public class Agenda extends JFrame {
-	//Instanciar objetos JDBC
-	DAO dao = new DAO();
-	private Connection con;
+
 	/**
 	 * 
 	 */
@@ -34,6 +38,7 @@ public class Agenda extends JFrame {
 	private JTextField txtFone;
 	private JTextField txtNome;
 	private JTextField txtEmail;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -55,13 +60,6 @@ public class Agenda extends JFrame {
 	 * Create the frame.
 	 */
 	public Agenda() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowActivated(WindowEvent e) {
-			//ativação da janela 
-				status();
-			}
-		});
 		setBackground(new Color(255, 255, 255));
 		setResizable(false);
 		setTitle("Agenda de contatos");
@@ -174,6 +172,23 @@ public class Agenda extends JFrame {
 		lblNewLabel_3.setIcon(new ImageIcon(Agenda.class.getResource("/img/about.png")));
 		lblNewLabel_3.setBounds(413, 0, 48, 48);
 		contentPane.add(lblNewLabel_3);
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("“Eu li e concordo com os termos de uso”");
+		chckbxNewCheckBox.setBounds(21, 192, 336, 23);
+		contentPane.add(chckbxNewCheckBox);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(262, 239, 146, 20);
+		contentPane.add(passwordField);
+		
+		JLabel lblNewLabel_4 = new JLabel("PASSWORD: ");
+		lblNewLabel_4.setToolTipText("Senha do adminstrador");
+		lblNewLabel_4.setBounds(182, 242, 112, 14);
+		contentPane.add(lblNewLabel_4);
+		
+		JToggleButton tglbtnNewToggleButton = new JToggleButton("New toggle button");
+		tglbtnNewToggleButton.setBounds(21, 236, 121, 23);
+		contentPane.add(tglbtnNewToggleButton);
 	}//FIM DO CONSTRUTOR
 	/**
 	 * Método responsável por limpar os campos
@@ -183,25 +198,5 @@ public class Agenda extends JFrame {
 		txtFone.setText(null);
 		txtNome.setText(null);
 		txtEmail.setText(null);
-	}
-	
-	/**
-	 * Método responsável por exibir o status da conexão 
-	 * 
-	 */
-
-	private void status() {
-	try {
-	//abrir a conexão
-		con = dao.conectar();
-		if (con == null) {
-			System.out.println("Erro de conexão");
-		} else {
-			System.out.println("Banco conectado");
-		}
-	} catch (Exception e) {
-		System.out.println(e);
-	
-	}
 	}
 }//FIM DE CÓDIGO
