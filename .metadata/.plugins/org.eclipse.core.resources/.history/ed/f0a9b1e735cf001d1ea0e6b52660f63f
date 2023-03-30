@@ -1,0 +1,20 @@
+package br.com.logica.array;
+
+public class Array3 {
+
+	public static void main(String[] args) {
+	//Multiplos de 3
+		int[] numeros = new int[100];
+		
+		for(int x = 0 ; x < 100 ; x++ ) {
+		
+			if ( x % 3 == 0 ) {
+			numeros[x/3-1] = x;
+			}
+		}
+		for(int i = 0 ; i < numeros.length ; i++) {
+			System.out.println(numeros[i]);
+		}
+	}
+
+}
