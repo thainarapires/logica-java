@@ -86,7 +86,7 @@ select * from contatos order by nome desc;
 select nome from contatos;
 select nome, email from contatos;
 select * from contatos where nome like 'an%';
-select * from contatos where nome = "Poliana";
+select * from contatos where nome = "Thainara";
 select * from contatos where id = 1;
 select nome from contatos order by nome;
 select fone from contatos order by nome;
