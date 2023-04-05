@@ -82,7 +82,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/users.png")));
-		btnUsuarios.setBounds(10, 11, 128, 128);
+		btnUsuarios.setBounds(52, 36, 128, 128);
 		contentPane.add(btnUsuarios);
 		
 		lblStatus = new JLabel("");

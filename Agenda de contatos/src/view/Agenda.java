@@ -185,15 +185,15 @@ public class Agenda extends JFrame {
 		lblStatus.setIcon(new ImageIcon(Agenda.class.getResource("/img/dataoff.png")));
 		lblStatus.setBounds(413, 211, 48, 48);
 		contentPane.add(lblStatus);
-		
+
 		// substituir o click pela tecla <ENTER> em um botão
 		getRootPane().setDefaultButton(btnPesquisar);
-		
+
 		JButton btnSobre = new JButton("");
 		btnSobre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//clicar no botão
-				//mostrar a janela sobre
+				// clicar no botão
+				// mostrar a janela sobre
 				Sobre sobre = new Sobre();
 				sobre.setVisible(true);
 			}
@@ -203,7 +203,7 @@ public class Agenda extends JFrame {
 		btnSobre.setIcon(new ImageIcon(Agenda.class.getResource("/img/about.png")));
 		btnSobre.setBounds(398, 8, 63, 41);
 		contentPane.add(btnSobre);
-		
+
 	}// FIM DO CONSTRUTOR
 
 	/**
@@ -245,41 +245,40 @@ public class Agenda extends JFrame {
 	 * Método para buscar um contato pelo nome
 	 */
 	private void buscar() {
-		
-	//System.out.println("Teste do botão buscar");
-		
-	//Criar uma variável com a query (instrução do banco)
-		
-	//Tratamento de exceções
+
+		// System.out.println("Teste do botão buscar");
+
+		// Criar uma variável com a query (instrução do banco)
+
+		// Tratamento de exceções
 		String read = "select * from contatos where nome = ?";
 		try {
-			//abrir a conexão
+			// abrir a conexão
 			con = dao.conectar();
-			//preparar a execucão da query( instrução sql - CRUD Read)
-			//o parâmetro 1 substitui a ? pelo conteúdo da caixa de texto
+			// preparar a execucão da query( instrução sql - CRUD Read)
+			// o parâmetro 1 substitui a ? pelo conteúdo da caixa de texto
 			pst = con.prepareStatement(read);
 			pst.setString(1, txtNome.getText());
-			//executar a query e buscar o resultado
+			// executar a query e buscar o resultado
 			rs = pst.executeQuery();
-				//uso da estrutura if else para verificar se existe o contato
-				// rs.next() -> se existir um contato no banco
-					if (rs.next()) {
-					//preencher as caixas de texto com as informações
-					
-					txtID.setText(rs.getString(1)); //1º Campo da Tabela ID
-					txtFone.setText(rs.getString(3)); //3º Campo da Tabela ID
-					txtEmail.setText(rs.getString(4)); //4º Campo da Tabela ID
-					} else {
-						//System.out.println("Contaos não cadastrados");
-						JOptionPane.showMessageDialog(null, "Contato inexistente");
-					}
-					con.close();
-		} 
-			catch (Exception e) {
+			// uso da estrutura if else para verificar se existe o contato
+			// rs.next() -> se existir um contato no banco
+			if (rs.next()) {
+				// preencher as caixas de texto com as informações
+
+				txtID.setText(rs.getString(1)); // 1º Campo da Tabela ID
+				txtFone.setText(rs.getString(3)); // 3º Campo da Tabela ID
+				txtEmail.setText(rs.getString(4)); // 4º Campo da Tabela ID
+			} else {
+				// System.out.println("Contaos não cadastrados");
+				JOptionPane.showMessageDialog(null, "Contato inexistente");
+			}
+			con.close();
+		} catch (Exception e) {
 			System.out.println(e);
-			
+
 		}
-	
-	}	
+
+	}
 }
 // FIM DE CÓDIGO

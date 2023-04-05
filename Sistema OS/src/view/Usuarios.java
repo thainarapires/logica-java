@@ -1,14 +1,20 @@
 package view;
 
+import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
-import java.awt.Font;
+import javax.swing.JTextField;
 
 public class Usuarios extends JDialog {
 
@@ -16,8 +22,12 @@ public class Usuarios extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JTextField txtNome;
+	private JPasswordField passwordSenha;
+	private JTextField txtID;
 	private JTextField txtLogin;
-	private JPasswordField passwordField;
+	private PreparedStatement pst;
+	private ResultSet rs;
 
 	/**
 	 * Launch the application.
@@ -37,39 +47,112 @@ public class Usuarios extends JDialog {
 	}
 
 	/**
+	 * Método responsável por limpar os campos
+	 */
+	private void limparCampos() {
+		txtID.setText(null);
+		txtNome.setText(null);
+		txtLogin.setText(null);
+		passwordSenha.setText(null);
+
+	}// FIM DO MÉTODO LIMPAR CAMPOS
+
+	/**
 	 * Create the dialog.
 	 */
 	public Usuarios() {
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
-		
+
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(Usuarios.class.getResource("/img/login.png")));
-		lblNewLabel.setBounds(35, 106, 64, 64);
+		lblNewLabel.setBounds(23, 72, 64, 64);
 		getContentPane().add(lblNewLabel);
-		
-		txtLogin = new JTextField();
-		txtLogin.setBounds(147, 95, 236, 32);
-		getContentPane().add(txtLogin);
-		txtLogin.setColumns(10);
-		
+
+		txtNome = new JTextField();
+		txtNome.setBounds(113, 42, 270, 32);
+		getContentPane().add(txtNome);
+		txtNome.setColumns(10);
+
 		JLabel lblLogin = new JLabel("LOGIN");
-		lblLogin.setBounds(147, 80, 46, 14);
+		lblLogin.setBounds(113, 89, 46, 14);
 		getContentPane().add(lblLogin);
-		
+
 		JLabel lblSenha = new JLabel("SENHA");
-		lblSenha.setBounds(147, 145, 46, 14);
+		lblSenha.setBounds(113, 152, 46, 14);
 		getContentPane().add(lblSenha);
-		
-		passwordField = new JPasswordField();
-		passwordField.setBounds(147, 163, 236, 32);
-		getContentPane().add(passwordField);
-		
+
+		passwordSenha = new JPasswordField();
+		passwordSenha.setBounds(113, 166, 236, 32);
+		getContentPane().add(passwordSenha);
+
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(Usuarios.class.getResource("/img/key.png")));
-		lblNewLabel_1.setBounds(181, 143, 16, 16);
+		lblNewLabel_1.setBounds(159, 149, 16, 16);
 		getContentPane().add(lblNewLabel_1);
 
-	}
+		JLabel lblID = new JLabel("ID");
+		lblID.setBounds(305, 89, 46, 14);
+		getContentPane().add(lblID);
+
+		txtID = new JTextField();
+		txtID.setEditable(false);
+		txtID.setBounds(305, 104, 86, 32);
+		getContentPane().add(txtID);
+		txtID.setColumns(10);
+
+		JLabel lblNome = new JLabel("NOME");
+		lblNome.setBounds(113, 27, 46, 14);
+		getContentPane().add(lblNome);
+
+		txtLogin = new JTextField();
+		txtLogin.setBounds(113, 102, 162, 34);
+		getContentPane().add(txtLogin);
+		txtLogin.setColumns(10);
+
+		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.inactiveCaption);
+		panel.setBounds(0, 219, 434, 42);
+		getContentPane().add(panel);
+
+		JButton btnPesquisar = new JButton("");
+		btnPesquisar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				buscar();
+			}
+
+			private void buscar() {
+
+			}
+		});
+
+		btnPesquisar.setContentAreaFilled(false);
+		btnPesquisar.setBorderPainted(false);
+		btnPesquisar.setSelected(true);
+		btnPesquisar.setToolTipText("Pesquisar");
+		btnPesquisar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/search.png")));
+		btnPesquisar.setBounds(383, 45, 42, 23);
+		getContentPane().add(btnPesquisar);
+
+		// substituir o click pela tecla <ENTER> em um botão
+		getRootPane().setDefaultButton(btnPesquisar);
+
+		JButton btnApagar = new JButton("");
+		btnApagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCampos();
+			}
+		});
+		btnApagar.setBorderPainted(false);
+		btnApagar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnApagar.setToolTipText("APAGAR TUDO!!!");
+		btnApagar.setContentAreaFilled(false);
+		btnApagar.setIcon(new ImageIcon(
+				Usuarios.class.getResource("/img/2064480_education_eraser_learn_student_study_icon.png")));
+		btnApagar.setBounds(359, 164, 54, 34);
+		getContentPane().add(btnApagar);
+
+		}
+
 }
