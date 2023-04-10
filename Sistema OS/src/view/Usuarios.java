@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
@@ -12,9 +13,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import model.DAO;
 
 public class Usuarios extends JDialog {
 
@@ -28,6 +32,8 @@ public class Usuarios extends JDialog {
 	private JTextField txtLogin;
 	private PreparedStatement pst;
 	private ResultSet rs;
+	private Connection con;
+	DAO dao = new DAO();
 
 	/**
 	 * Launch the application.
@@ -120,10 +126,7 @@ public class Usuarios extends JDialog {
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscar();
-			}
-
-			private void buscar() {
-
+			
 			}
 		});
 
@@ -153,6 +156,44 @@ public class Usuarios extends JDialog {
 		btnApagar.setBounds(359, 164, 54, 34);
 		getContentPane().add(btnApagar);
 
+	}
+
+	private void buscar() {
+
+		// System.out.println("Teste do botão buscar");
+
+		// Criar uma variável com a query (instrução do banco)
+
+		// Tratamento de exceções
+		String read = "select * from usuarios where nome = ?";
+		try {
+			// abrir a conexão
+			con = dao.conectar();
+			// preparar a execucão da query( instrução sql - CRUD Read)
+			// o parâmetro 1 substitui a ? pelo conteúdo da caixa de texto
+			pst = con.prepareStatement(read);
+			pst.setString(1, txtNome.getText());
+			// executar a query e buscar o resultado
+			rs = pst.executeQuery();
+			// uso da estrutura if else para verificar se existe o contato
+			// rs.next() -> se existir um contato no banco
+			if (rs.next()) {
+				// preencher as caixas de texto com as informações
+
+				txtID.setText(rs.getString(1)); // 1º Campo da Tabela ID
+				txtNome.setText(rs.getString(2)); // 2º Campo da Tabela ID
+				txtLogin.setText(rs.getString(3)); // 3º Campo da Tabela ID
+				passwordSenha.setText(rs.getString(4)); // 4º Campo da Tabela ID
+			} else {
+				// System.out.println("Contaos não cadastrados");
+				JOptionPane.showMessageDialog(null, "Contato inexistente");
+			}
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+
 		}
 
+	
+	}
 }
