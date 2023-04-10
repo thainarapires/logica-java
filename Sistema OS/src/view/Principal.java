@@ -65,7 +65,7 @@ public class Principal extends JFrame {
 		
 		setTitle("Sistema OS");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 640, 480);
+		setBounds(100, 100, 249, 301);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -88,7 +88,7 @@ public class Principal extends JFrame {
 		lblStatus = new JLabel("");
 		lblStatus.setIcon(new ImageIcon(Principal.class.getResource("/img/dataoff.png")));
 		lblStatus.setToolTipText("Banco de dados");
-		lblStatus.setBounds(566, 382, 48, 48);
+		lblStatus.setBounds(62, 175, 48, 48);
 		contentPane.add(lblStatus);
 		
 		JButton btnSobre = new JButton("");
@@ -104,7 +104,7 @@ public class Principal extends JFrame {
 		btnSobre.setIcon(new ImageIcon(Principal.class.getResource("/img/about.png")));
 		btnSobre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSobre.setToolTipText("Sobre");
-		btnSobre.setBounds(566, 11, 48, 48);
+		btnSobre.setBounds(132, 175, 48, 48);
 		contentPane.add(btnSobre);
 	
 
