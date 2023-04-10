@@ -186,7 +186,7 @@ public class Usuarios extends JDialog {
 				passwordSenha.setText(rs.getString(4)); // 4º Campo da Tabela ID
 			} else {
 				// System.out.println("Contaos não cadastrados");
-				JOptionPane.showMessageDialog(null, "Contato inexistente");
+				JOptionPane.showMessageDialog(null, "Usuario inexistente");
 			}
 			con.close();
 		} catch (Exception e) {
