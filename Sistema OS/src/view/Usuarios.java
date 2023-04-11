@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import model.DAO;
+import java.awt.Toolkit;
 
 public class Usuarios extends JDialog {
 
@@ -67,6 +68,7 @@ public class Usuarios extends JDialog {
 	 * Create the dialog.
 	 */
 	public Usuarios() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Usuarios.class.getResource("/img/users.png")));
 		setModal(true);
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);

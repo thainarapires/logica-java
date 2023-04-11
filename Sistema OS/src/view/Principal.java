@@ -19,6 +19,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.DAO;
 import java.awt.Color;
+import java.awt.Toolkit;
 
 public class Principal extends JFrame {
 	// Instanciar objetos JDBC
@@ -54,6 +55,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/users.png")));
 			addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowActivated(WindowEvent e) {
