@@ -1,7 +1,9 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,6 +11,8 @@ import java.awt.event.WindowEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,8 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
-import java.awt.Color;
-import java.awt.Toolkit;
+import java.awt.Font;
+import javax.swing.UIManager;
 
 public class Principal extends JFrame {
 	// Instanciar objetos JDBC
@@ -34,6 +38,7 @@ public class Principal extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblStatus;
+	private JLabel lblData;
 
 	/**
 	 * Launch the application.
@@ -55,19 +60,21 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/users.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/icon.png")));
 			addWindowListener(new WindowAdapter() {
 				@Override
 				public void windowActivated(WindowEvent e) {
 					// ativação da janela
 					status();
+					setarData();
+				
 				}
 			});
 		
 		
-		setTitle("Sistema OS");
+		setTitle("SP Assistencia Eletrodomésticos");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 249, 301);
+		setBounds(100, 100, 375, 402);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -84,14 +91,8 @@ public class Principal extends JFrame {
 			}
 		});
 		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/users.png")));
-		btnUsuarios.setBounds(52, 36, 128, 128);
+		btnUsuarios.setBounds(112, 135, 128, 128);
 		contentPane.add(btnUsuarios);
-		
-		lblStatus = new JLabel("");
-		lblStatus.setIcon(new ImageIcon(Principal.class.getResource("/img/dataoff.png")));
-		lblStatus.setToolTipText("Banco de dados");
-		lblStatus.setBounds(62, 175, 48, 48);
-		contentPane.add(lblStatus);
 		
 		JButton btnSobre = new JButton("");
 		btnSobre.addActionListener(new ActionListener() {
@@ -106,8 +107,35 @@ public class Principal extends JFrame {
 		btnSobre.setIcon(new ImageIcon(Principal.class.getResource("/img/about.png")));
 		btnSobre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSobre.setToolTipText("Sobre");
-		btnSobre.setBounds(132, 175, 48, 48);
+		btnSobre.setBounds(263, 275, 48, 48);
 		contentPane.add(btnSobre);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.CYAN);
+		panel.setBounds(0, 326, 497, 37);
+		contentPane.add(panel);
+		panel.setLayout(null);
+		
+		lblData = new JLabel("New label");
+		lblData.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblData.setBounds(10, 8, 262, 17);
+		panel.add(lblData);
+		
+		lblStatus = new JLabel("");
+		lblStatus.setBounds(306, 274, 48, 48);
+		contentPane.add(lblStatus);
+		lblStatus.setIcon(new ImageIcon(Principal.class.getResource("/img/dataoff.png")));
+		lblStatus.setToolTipText("Banco de dados");
+		
+		JLabel lblNewLabel = new JLabel("SP ASSISTÊNCIA");
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblNewLabel.setBounds(99, 12, 188, 29);
+		contentPane.add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("ELETRODOMÉSTICOS");
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
+		lblNewLabel_1.setBounds(113, 36, 200, 14);
+		contentPane.add(lblNewLabel_1);
 	
 
 	}
@@ -134,5 +162,16 @@ public class Principal extends JFrame {
 
 		}
 
-	}
+	}//Fim do método status
+
+	/**
+	 * Método responsável por setar a data no rodape
+	 */
+	private void setarData() {
+		Date data = new Date();
+		//CRIAR OBJETO PARA FORMATAR A DATA
+		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+		//alterar o texto da label pela data atual formataada
+		lblData.setText(formatador.format(data));
+		}
 }

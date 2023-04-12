@@ -41,7 +41,7 @@ public class Sobre extends JDialog {
 		setBounds(100, 100, 235, 300);
 		getContentPane().setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("Agenda de contatos");
+		JLabel lblNewLabel = new JLabel("ASSISTENCIA");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel.setBounds(20, 11, 197, 27);
 		getContentPane().add(lblNewLabel);
