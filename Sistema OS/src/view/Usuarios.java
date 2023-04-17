@@ -70,65 +70,66 @@ public class Usuarios extends JDialog {
 	public Usuarios() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Usuarios.class.getResource("/img/users.png")));
 		setModal(true);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 346, 341);
 		getContentPane().setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(Usuarios.class.getResource("/img/login.png")));
-		lblNewLabel.setBounds(23, 72, 64, 64);
-		getContentPane().add(lblNewLabel);
-
 		txtNome = new JTextField();
-		txtNome.setBounds(113, 42, 270, 32);
+		txtNome.setBounds(11, 42, 270, 32);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
 
-		JLabel lblLogin = new JLabel("LOGIN");
-		lblLogin.setBounds(113, 89, 46, 14);
+		JLabel lblLogin = new JLabel("LOGIN:");
+		lblLogin.setBounds(11, 85, 46, 14);
 		getContentPane().add(lblLogin);
 
-		JLabel lblSenha = new JLabel("SENHA");
-		lblSenha.setBounds(113, 152, 46, 14);
+		JLabel lblSenha = new JLabel("SENHA:");
+		lblSenha.setBounds(11, 155, 46, 14);
 		getContentPane().add(lblSenha);
 
 		passwordSenha = new JPasswordField();
-		passwordSenha.setBounds(113, 166, 236, 32);
+		passwordSenha.setBounds(11, 180, 236, 32);
 		getContentPane().add(passwordSenha);
 
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(Usuarios.class.getResource("/img/key.png")));
-		lblNewLabel_1.setBounds(159, 149, 16, 16);
+		lblNewLabel_1.setBounds(48, 153, 16, 16);
 		getContentPane().add(lblNewLabel_1);
 
-		JLabel lblID = new JLabel("ID");
-		lblID.setBounds(305, 89, 46, 14);
+		JLabel lblID = new JLabel("ID:");
+		lblID.setBounds(183, 85, 46, 14);
 		getContentPane().add(lblID);
 
 		txtID = new JTextField();
 		txtID.setEditable(false);
-		txtID.setBounds(305, 104, 86, 32);
+		txtID.setBounds(183, 110, 86, 32);
 		getContentPane().add(txtID);
 		txtID.setColumns(10);
 
-		JLabel lblNome = new JLabel("NOME");
-		lblNome.setBounds(113, 27, 46, 14);
+		JLabel lblNome = new JLabel("NOME:");
+		lblNome.setBounds(11, 17, 46, 14);
 		getContentPane().add(lblNome);
 
 		txtLogin = new JTextField();
-		txtLogin.setBounds(113, 102, 162, 34);
+		txtLogin.setBounds(11, 110, 162, 34);
 		getContentPane().add(txtLogin);
 		txtLogin.setColumns(10);
 
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.inactiveCaption);
-		panel.setBounds(0, 219, 434, 42);
+		panel.setBounds(0, 223, 434, 79);
 		getContentPane().add(panel);
+		panel.setLayout(null);
+
+		JLabel lblNewLabel = new JLabel("");
+		lblNewLabel.setBounds(149, 8, 64, 64);
+		panel.add(lblNewLabel);
+		lblNewLabel.setIcon(new ImageIcon(Usuarios.class.getResource("/img/login.png")));
 
 		JButton btnPesquisar = new JButton("");
 		btnPesquisar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscar();
-			
+
 			}
 		});
 
@@ -137,7 +138,7 @@ public class Usuarios extends JDialog {
 		btnPesquisar.setSelected(true);
 		btnPesquisar.setToolTipText("Pesquisar");
 		btnPesquisar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/search.png")));
-		btnPesquisar.setBounds(383, 45, 42, 23);
+		btnPesquisar.setBounds(283, 57, 42, 23);
 		getContentPane().add(btnPesquisar);
 
 		// substituir o click pela tecla <ENTER> em um botão
@@ -155,8 +156,22 @@ public class Usuarios extends JDialog {
 		btnApagar.setContentAreaFilled(false);
 		btnApagar.setIcon(new ImageIcon(
 				Usuarios.class.getResource("/img/2064480_education_eraser_learn_student_study_icon.png")));
-		btnApagar.setBounds(359, 164, 54, 34);
+		btnApagar.setBounds(257, 180, 39, 34);
 		getContentPane().add(btnApagar);
+
+		JButton btnAdicionar = new JButton("");
+		btnAdicionar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionar();
+			}
+		});
+		btnAdicionar.setContentAreaFilled(false);
+		btnAdicionar.setBorderPainted(false);
+		btnAdicionar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/2534325_add_add contact_add friend_friend request_icon.png")));
+		btnAdicionar.setToolTipText("Adicionar novo usuario");
+		btnAdicionar.setBounds(267, 110, 46, 34);
+		getContentPane().add(btnAdicionar);
 
 	}
 
@@ -196,6 +211,49 @@ public class Usuarios extends JDialog {
 
 		}
 
-	
 	}
+	@SuppressWarnings("deprecation")
+	private void adicionar() {
+		// System.out.println("Teste");
+		// validação de campos obrigatórios
+
+		if (txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o nome");
+			txtNome.requestFocus();
+		} else if (txtLogin.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o login");
+			txtLogin.requestFocus();
+		} else if (passwordSenha.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha a senha");
+			passwordSenha.requestFocus();
+		} else {
+			//lógica principal
+			//CRUD Create
+			String create = "insert into usuarios(nome,login,senha) values (?,?,?)";
+			//tratamento de exceções
+			
+			try { 
+			// abrir conexao
+				con = dao.conectar();
+				// preparar a execução da query (instrução sql, CRUD CREATE)
+				pst = con.prepareStatement(create);
+				pst.setString(1, txtNome.getText());
+				pst.setString(2, txtLogin.getText());
+				pst.setString(3, passwordSenha.getText());
+				//executa a query(instrução sql, CRUD)
+				pst.executeUpdate();
+				//confirmar
+				JOptionPane.showMessageDialog(null, "Contato adicionado");
+				//limpar campos
+				limparCampos();
+				
+				// fechar conection
+				con.close();
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+
+	}//fim do método add
 }

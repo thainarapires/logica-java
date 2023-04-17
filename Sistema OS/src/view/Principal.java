@@ -90,8 +90,8 @@ public class Principal extends JFrame {
 				
 			}
 		});
-		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/users.png")));
-		btnUsuarios.setBounds(112, 135, 128, 128);
+		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/4960335_cogwheel_gear_setting_wrench_icon.png")));
+		btnUsuarios.setBounds(113, 114, 128, 128);
 		contentPane.add(btnUsuarios);
 		
 		JButton btnSobre = new JButton("");
@@ -136,6 +136,11 @@ public class Principal extends JFrame {
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
 		lblNewLabel_1.setBounds(113, 36, 200, 14);
 		contentPane.add(lblNewLabel_1);
+		
+		JLabel lblMenu = new JLabel("USUARIOS");
+		lblMenu.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblMenu.setBounds(143, 89, 72, 14);
+		contentPane.add(lblMenu);
 	
 
 	}
