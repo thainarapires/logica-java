@@ -84,7 +84,7 @@ public class Agenda extends JFrame {
 		contentPane.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("ID:");
-		lblNewLabel.setBounds(21, 11, 52, 14);
+		lblNewLabel.setBounds(11, 11, 52, 14);
 		contentPane.add(lblNewLabel);
 
 		txtID = new JTextField();
@@ -93,12 +93,12 @@ public class Agenda extends JFrame {
 		contentPane.add(txtID);
 		txtID.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("Nome:");
-		lblNewLabel_1.setBounds(21, 36, 52, 14);
+		JLabel lblNewLabel_1 = new JLabel("*Nome:");
+		lblNewLabel_1.setBounds(11, 36, 52, 14);
 		contentPane.add(lblNewLabel_1);
 
-		JLabel lblNewLabel_1_1 = new JLabel("Fone:");
-		lblNewLabel_1_1.setBounds(21, 64, 52, 14);
+		JLabel lblNewLabel_1_1 = new JLabel("*Fone:");
+		lblNewLabel_1_1.setBounds(11, 65, 52, 14);
 		contentPane.add(lblNewLabel_1_1);
 
 		txtFone = new JTextField();
@@ -112,7 +112,7 @@ public class Agenda extends JFrame {
 		contentPane.add(txtNome);
 
 		JLabel lblNewLabel_1_1_1 = new JLabel("E-mail:");
-		lblNewLabel_1_1_1.setBounds(21, 92, 52, 14);
+		lblNewLabel_1_1_1.setBounds(11, 92, 52, 14);
 		contentPane.add(lblNewLabel_1_1_1);
 
 		txtEmail = new JTextField();
@@ -121,6 +121,11 @@ public class Agenda extends JFrame {
 		contentPane.add(txtEmail);
 
 		JButton btnAdicionar = new JButton("");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				adicionar();
+			}
+		});
 		btnAdicionar.setContentAreaFilled(false);
 		btnAdicionar.setBorder(null);
 		btnAdicionar.setToolTipText("Adicionar contato");
@@ -190,6 +195,8 @@ public class Agenda extends JFrame {
 		getRootPane().setDefaultButton(btnPesquisar);
 
 		JButton btnSobre = new JButton("");
+		btnSobre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSobre.setContentAreaFilled(false);
 		btnSobre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// clicar no botão
@@ -279,6 +286,51 @@ public class Agenda extends JFrame {
 
 		}
 
-	}
+	}// Fim do metodo buscar
+
+	/**
+	 * Metodo add novo contato
+	 */
+
+	private void adicionar() {
+		// System.out.println("Teste");
+		// validação de campos obrigatórios
+
+		if (txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o nome do contato");
+			txtNome.requestFocus();
+		} else if (txtFone.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o fone do contato");
+			txtFone.requestFocus();
+		} else {
+			//lógica principal
+			//CRUD Create
+			String create = "insert into contatos(nome,fone,email) values (?,?,?)";
+			//tratamento de exceções
+			
+			try { 
+			// abrir conexao
+				con = dao.conectar();
+				// preparar a execução da query (instrução sql, CRUD CREATE)
+				pst = con.prepareStatement(create);
+				pst.setString(1, txtNome.getText());
+				pst.setString(2, txtFone.getText());
+				pst.setString(3, txtEmail.getText());
+				//executa a query(instrução sql, CRUD)
+				pst.executeUpdate();
+				//confirmar
+				JOptionPane.showMessageDialog(null, "Contato adicionado");
+				//limpar campos
+				limparCampos();
+				
+				// fechar conection
+				con.close();
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+
+	}//fim do método add
 }
 // FIM DE CÓDIGO
