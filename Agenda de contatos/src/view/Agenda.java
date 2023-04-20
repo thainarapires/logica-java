@@ -145,6 +145,12 @@ public class Agenda extends JFrame {
 		contentPane.add(btnDeletar);
 
 		JButton btnEditar = new JButton("");
+		btnEditar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				editarContato();
+				
+			}
+		});
 		btnEditar.setContentAreaFilled(false);
 		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.setToolTipText("Editar contato");
@@ -303,34 +309,80 @@ public class Agenda extends JFrame {
 			JOptionPane.showMessageDialog(null, "Preencha o fone do contato");
 			txtFone.requestFocus();
 		} else {
-			//lógica principal
-			//CRUD Create
+			// lógica principal
+			// CRUD Create
 			String create = "insert into contatos(nome,fone,email) values (?,?,?)";
-			//tratamento de exceções
-			
-			try { 
-			// abrir conexao
+			// tratamento de exceções
+
+			try {
+				// abrir conexao
 				con = dao.conectar();
 				// preparar a execução da query (instrução sql, CRUD CREATE)
 				pst = con.prepareStatement(create);
 				pst.setString(1, txtNome.getText());
 				pst.setString(2, txtFone.getText());
 				pst.setString(3, txtEmail.getText());
-				//executa a query(instrução sql, CRUD)
+				// executa a query(instrução sql, CRUD)
 				pst.executeUpdate();
-				//confirmar
+				// confirmar
 				JOptionPane.showMessageDialog(null, "Contato adicionado");
-				//limpar campos
+				// limpar campos
 				limparCampos();
-				
+
 				// fechar conection
 				con.close();
-				
+
 			} catch (Exception e) {
 				System.out.println(e);
 			}
 		}
 
-	}//fim do método add
+	}// fim do método add
+	
+	/** 
+	 * metodo para editar um contato (atenção, usar o id)
+	 * 
+	 * 
+	 */
+	private void editarContato() {
+	//	System.out.println("teste do botão editar");
+	//validar campos obrigatorios
+		if (txtNome.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Digite o nome do contato");
+			txtNome.requestFocus();
+		
+		}	else if (txtFone.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Digite o fone do contato");
+			txtFone.requestFocus();
+		} else {
+			//logica principal
+			//CRUD - Update
+			String update = "update contatos set nome =?, fone=?, email=? where id=?";
+			//trat de exceção
+			try {
+				//abrir conexão
+				con = dao.conectar();
+				//preparar a query
+				pst = con.prepareStatement(update);
+				pst.setString(1, txtNome.getText());
+				pst.setString(2, txtFone.getText());
+				pst.setString(3, txtEmail.getText());
+				pst.setString(4, txtID.getText());
+				//Executar query
+				pst.executeUpdate();
+				//confirmar para o user
+				JOptionPane.showMessageDialog(null, "Dados do contato editados com sucesso!");
+				//limpar campos
+				limparCampos();
+				//fechar conexao
+				con.close();
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			
+		}
+		
+	}//FIM DO MÉTODO EDITAR CONTATO
 }
 // FIM DE CÓDIGO

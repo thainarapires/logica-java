@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import model.DAO;
 import java.awt.Font;
 import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class Principal extends JFrame {
 	// Instanciar objetos JDBC
@@ -60,6 +61,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/icon.png")));
 			addWindowListener(new WindowAdapter() {
 				@Override
@@ -71,18 +74,19 @@ public class Principal extends JFrame {
 				}
 			});
 		
-		
+			setLocationRelativeTo(null);
 		setTitle("SP Assistencia Eletrodomésticos");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 375, 402);
+		setBounds(100, 100, 639, 479);
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
+		contentPane.setBackground(SystemColor.window);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnUsuarios = new JButton("");
+		btnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUsuarios.setToolTipText("Usuarios");
 		btnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuarios usuarios = new Usuarios();
@@ -90,8 +94,8 @@ public class Principal extends JFrame {
 				
 			}
 		});
-		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/4960335_cogwheel_gear_setting_wrench_icon.png")));
-		btnUsuarios.setBounds(113, 114, 128, 128);
+		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/3643746_add_friend_member_people_plus_icon.png")));
+		btnUsuarios.setBounds(42, 35, 128, 128);
 		contentPane.add(btnUsuarios);
 		
 		JButton btnSobre = new JButton("");
@@ -107,40 +111,90 @@ public class Principal extends JFrame {
 		btnSobre.setIcon(new ImageIcon(Principal.class.getResource("/img/about.png")));
 		btnSobre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnSobre.setToolTipText("Sobre");
-		btnSobre.setBounds(263, 275, 48, 48);
+		btnSobre.setBounds(572, 0, 48, 48);
 		contentPane.add(btnSobre);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(Color.CYAN);
-		panel.setBounds(0, 326, 497, 37);
+		panel.setBackground(SystemColor.desktop);
+		panel.setBounds(-5, 394, 635, 52);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		lblData = new JLabel("New label");
-		lblData.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblData.setBounds(10, 8, 262, 17);
+		lblData.setForeground(Color.WHITE);
+		lblData.setToolTipText("DATA");
+		lblData.setFont(new Font("Times New Roman", Font.BOLD, 18));
+		lblData.setBounds(25, 11, 529, 20);
 		panel.add(lblData);
 		
 		lblStatus = new JLabel("");
-		lblStatus.setBounds(306, 274, 48, 48);
+		lblStatus.setBounds(572, 346, 48, 48);
 		contentPane.add(lblStatus);
 		lblStatus.setIcon(new ImageIcon(Principal.class.getResource("/img/dataoff.png")));
-		lblStatus.setToolTipText("Banco de dados");
+		lblStatus.setToolTipText("Conexão");
 		
 		JLabel lblNewLabel = new JLabel("SP ASSISTÊNCIA");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
-		lblNewLabel.setBounds(99, 12, 188, 29);
+		lblNewLabel.setBounds(242, 138, 156, 29);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("ELETRODOMÉSTICOS");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblNewLabel_1.setBounds(113, 36, 200, 14);
+		lblNewLabel_1.setBounds(256, 162, 142, 14);
 		contentPane.add(lblNewLabel_1);
 		
-		JLabel lblMenu = new JLabel("USUARIOS");
+		JLabel lblMenu = new JLabel("Usuarios");
 		lblMenu.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblMenu.setBounds(143, 89, 72, 14);
+		lblMenu.setBounds(73, 11, 72, 14);
 		contentPane.add(lblMenu);
+		
+		JLabel lblLOGO = new JLabel("");
+		lblLOGO.setIcon(new ImageIcon(Principal.class.getResource("/img/icon.png")));
+		lblLOGO.setBounds(205, 137, 46, 48);
+		contentPane.add(lblLOGO);
+		
+		JButton btnClientes = new JButton("");
+		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/oi-removebg-preview.png")));
+		btnClientes.setToolTipText("Clientes");
+		btnClientes.setBounds(422, 35, 128, 128);
+		contentPane.add(btnClientes);
+		
+		JLabel lblClientes = new JLabel("Clientes");
+		lblClientes.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblClientes.setBounds(453, 11, 72, 14);
+		contentPane.add(lblClientes);
+		
+		JButton btnUsuarios_2 = new JButton("");
+		btnUsuarios_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUsuarios_2.setIcon(new ImageIcon(Principal.class.getResource("/img/4960335_cogwheel_gear_setting_wrench_icon.png")));
+		btnUsuarios_2.setToolTipText("Serviços");
+		btnUsuarios_2.setBounds(42, 194, 128, 128);
+		contentPane.add(btnUsuarios_2);
+		
+		JLabel lblMenu_2 = new JLabel("Serviço");
+		lblMenu_2.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblMenu_2.setBounds(73, 221, 72, 14);
+		contentPane.add(lblMenu_2);
+		
+		JButton btnUsuarios_3 = new JButton("");
+		btnUsuarios_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUsuarios_3.setIcon(new ImageIcon(Principal.class.getResource("/img/2931174_clipboard_copy_paste_analysis_report_icon.png")));
+		btnUsuarios_3.setToolTipText("Relatórios");
+		btnUsuarios_3.setBounds(422, 194, 129, 129);
+		contentPane.add(btnUsuarios_3);
+		
+		JLabel lblMenu_3 = new JLabel("Relatórios");
+		lblMenu_3.setToolTipText("Relatórios");
+		lblMenu_3.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblMenu_3.setBounds(453, 174, 72, 14);
+		contentPane.add(lblMenu_3);
+		
+		JLabel lblMenu_3_1 = new JLabel("Serviços");
+		lblMenu_3_1.setToolTipText("Serviços");
+		lblMenu_3_1.setFont(new Font("Tahoma", Font.BOLD, 13));
+		lblMenu_3_1.setBounds(73, 174, 72, 14);
+		contentPane.add(lblMenu_3_1);
 	
 
 	}
@@ -178,5 +232,6 @@ public class Principal extends JFrame {
 		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
 		//alterar o texto da label pela data atual formataada
 		lblData.setText(formatador.format(data));
-		}
+		setLocationRelativeTo(null);
+	}
 }

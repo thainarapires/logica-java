@@ -101,7 +101,7 @@ select nome as Contato, fone as Telefone, email as Email from contatos order by 
 update contatos set fone = '77774-7477' where id = 1;
 update contatos set fone = '77774-7474' where nome = 'Amanda'; 
 update contatos set fone = '77774-7433',email = 'bill@gmail.com' where id = '2';
-update contatos set nome = 'Willian Gates', fone = '50 905032121', email = 'bill@outlook.com' where id= 2;
+update contatos set nome= 'Willian Gates', fone= '50 905032121', email ='bill@outlook.com' where id=2;
 update contatos set nome = 'Amanda', email = 'amanda@outlook.com' where id= 3;
 update contatos set nome = 'Aline', email = 'aline@outlook.com' where id= 4;
 update contatos set nome = 'Andressa', email = 'andressa@outlook.com' where id= 5;
