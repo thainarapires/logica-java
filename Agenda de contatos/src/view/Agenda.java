@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import model.DAO;
+import utils.Validador;
 
 public class Agenda extends JFrame {
 	// Instanciar objetos JDBC
@@ -83,9 +84,9 @@ public class Agenda extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JLabel lblNewLabel = new JLabel("ID:");
-		lblNewLabel.setBounds(11, 11, 52, 14);
-		contentPane.add(lblNewLabel);
+		JLabel lblID = new JLabel("ID:");
+		lblID.setBounds(11, 11, 52, 14);
+		contentPane.add(lblID);
 
 		txtID = new JTextField();
 		txtID.setEditable(false);
@@ -93,32 +94,39 @@ public class Agenda extends JFrame {
 		contentPane.add(txtID);
 		txtID.setColumns(10);
 
-		JLabel lblNewLabel_1 = new JLabel("*Nome:");
-		lblNewLabel_1.setBounds(11, 36, 52, 14);
-		contentPane.add(lblNewLabel_1);
+		JLabel lblNome = new JLabel("*Nome:");
+		lblNome.setBounds(11, 36, 52, 14);
+		contentPane.add(lblNome);
 
-		JLabel lblNewLabel_1_1 = new JLabel("*Fone:");
-		lblNewLabel_1_1.setBounds(11, 65, 52, 14);
-		contentPane.add(lblNewLabel_1_1);
+		JLabel lblFone = new JLabel("*Fone:");
+		lblFone.setBounds(11, 65, 52, 14);
+		contentPane.add(lblFone);
 
 		txtFone = new JTextField();
 		txtFone.setColumns(10);
 		txtFone.setBounds(83, 61, 131, 20);
 		contentPane.add(txtFone);
+		//uso do Validador
+		txtFone.setDocument(new Validador(15));
 
 		txtNome = new JTextField();
 		txtNome.setColumns(10);
 		txtNome.setBounds(83, 33, 223, 20);
 		contentPane.add(txtNome);
+		//uso do Validador
+		txtNome.setDocument(new Validador(50));
+		
 
-		JLabel lblNewLabel_1_1_1 = new JLabel("E-mail:");
-		lblNewLabel_1_1_1.setBounds(11, 92, 52, 14);
-		contentPane.add(lblNewLabel_1_1_1);
+		JLabel lblEmail = new JLabel("E-mail:");
+		lblEmail.setBounds(11, 92, 52, 14);
+		contentPane.add(lblEmail);
 
 		txtEmail = new JTextField();
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(83, 89, 325, 20);
 		contentPane.add(txtEmail);
+		//uso do Validador
+		txtEmail.setDocument(new Validador(50));
 
 		JButton btnAdicionar = new JButton("");
 		btnAdicionar.addActionListener(new ActionListener() {
@@ -136,6 +144,11 @@ public class Agenda extends JFrame {
 		contentPane.add(btnAdicionar);
 
 		JButton btnDeletar = new JButton("");
+		btnDeletar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				excluirContato();
+			}
+		});
 		btnDeletar.setContentAreaFilled(false);
 		btnDeletar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDeletar.setToolTipText("Deletar contato");
@@ -384,5 +397,35 @@ public class Agenda extends JFrame {
 		}
 		
 	}//FIM DO MÉTODO EDITAR CONTATO
+	
+	//Excluir contato
+	private void excluirContato() {
+		//System.out.println("teste");
+		//validação de exclusao - a variável confirma captura a opção escolhida.
+		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste contato?", "Atenção", JOptionPane.YES_NO_OPTION);
+		if (confirma == JOptionPane.YES_OPTION) {
+			// CRUD - Delete vai excluir o contato
+			String delete = "delete from contatos where id=?";
+			//tratamento de exceção
+			try {
+				//abrir conexão 
+				con = dao.conectar();
+				//preparar a query
+				pst = con.prepareStatement(delete);
+				pst.setString(1, txtID.getText());
+				//executar query
+				pst.executeUpdate();
+				//confirmar para o user
+				JOptionPane.showMessageDialog(null, "Contato excluido");
+				//limpar campos
+				limparCampos();
+				//fechar conexao
+				con.close();
+				
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+		}
+	}//Fim do método excluir contato
 }
 // FIM DE CÓDIGO

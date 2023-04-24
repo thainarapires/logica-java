@@ -20,6 +20,23 @@ public class Mundo {
 		System.out.println("Resistência " + blocoMadeira.resistencia);
 		blocoMadeira.minerar();
 		blocoMadeira.craftar();
+		
+		//instanciar uma enxada de pedra
+		Enxada enxadaMadeira = new Enxada();
+		enxadaMadeira.textura = "madeira";
+		enxadaMadeira.resistencia = 5;
+		enxadaMadeira.conquista = false;
+		System.out.println("Enxada de " + enxadaMadeira.textura);
+		System.out.println("Resistência " + enxadaMadeira.resistencia);
+		enxadaMadeira.arar();
+		
+		//validação de conquista
+		if (enxadaMadeira.conquista == true) {
+			System.out.println("---------------------------------");
+			System.out.println("Conquista obtida");
+			System.out.println("Dedicação séria. Hora do plantio.");
+			System.out.println("---------------------------------");
+		}
 	}
 		
 		

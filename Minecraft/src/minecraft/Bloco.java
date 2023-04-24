@@ -11,9 +11,9 @@ public class Bloco {
 	
 	public Bloco() {
 	System.out.println(""); //pula linha
-	System.out.println("====");	
-	System.out.println("=  =");	
-	System.out.println("====");	
+	System.out.println("=====");	
+	System.out.println("|   |");	
+	System.out.println("=====");	
 	}
 	
 

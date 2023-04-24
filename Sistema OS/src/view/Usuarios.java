@@ -1,8 +1,11 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.SystemColor;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
@@ -19,9 +22,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import model.DAO;
-import java.awt.Toolkit;
-import java.awt.Color;
-import javax.swing.JScrollPane;
+import utils.Validador;
 
 public class Usuarios extends JDialog {
 
@@ -83,6 +84,7 @@ public class Usuarios extends JDialog {
 		txtNome.setBounds(11, 42, 270, 32);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
+		txtNome.setDocument(new Validador(25));
 
 		JLabel lblLogin = new JLabel("LOGIN:");
 		lblLogin.setBounds(11, 85, 46, 14);
@@ -95,6 +97,7 @@ public class Usuarios extends JDialog {
 		passwordSenha = new JPasswordField();
 		passwordSenha.setBounds(11, 180, 236, 32);
 		getContentPane().add(passwordSenha);
+		passwordSenha.setDocument(new Validador(50));
 
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(Usuarios.class.getResource("/img/key.png")));
@@ -119,6 +122,7 @@ public class Usuarios extends JDialog {
 		txtLogin.setBounds(11, 110, 162, 34);
 		getContentPane().add(txtLogin);
 		txtLogin.setColumns(10);
+		txtLogin.setDocument(new Validador(20));
 
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.menu);
@@ -127,9 +131,9 @@ public class Usuarios extends JDialog {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setBounds(10, 0, 64, 64);
+		lblNewLabel.setBounds(17, -1, 48, 64);
 		panel.add(lblNewLabel);
-		lblNewLabel.setIcon(new ImageIcon(Usuarios.class.getResource("/img/login.png")));
+		lblNewLabel.setIcon(new ImageIcon(Usuarios.class.getResource("/img/icone.png")));
 
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setBounds(304, 9, 32, 46);
@@ -197,6 +201,21 @@ public class Usuarios extends JDialog {
 		btnApagar.setToolTipText("APAGAR TUDO!!!");
 		btnApagar.setContentAreaFilled(false);
 		btnApagar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/erasera.png")));
+		
+		JButton btnExcluir = new JButton("");
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnExcluir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			excluirUsuario();
+			}
+			
+		});
+		btnExcluir.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		btnExcluir.setContentAreaFilled(false);
+		btnExcluir.setBorderPainted(false);
+		btnExcluir.setIcon(new ImageIcon(Usuarios.class.getResource("/img/DeletarCNTT.png")));
+		btnExcluir.setBounds(296, 180, 32, 32);
+		getContentPane().add(btnExcluir);
 
 	}
 
@@ -328,4 +347,34 @@ public class Usuarios extends JDialog {
 		}
 
 	}// FIM DO MÉTODO EDITAR CONTATO
+	
+	//Excluir contato
+		private void excluirUsuario() {
+			//System.out.println("teste");
+			//validação de exclusao - a variável confirma captura a opção escolhida.
+			int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste usuario?", "Atenção", JOptionPane.YES_NO_OPTION);
+			if (confirma == JOptionPane.YES_OPTION) {
+				// CRUD - Delete vai excluir o contato
+				String delete = "delete from usuarios where id=?";
+				//tratamento de exceção
+				try {
+					//abrir conexão 
+					con = dao.conectar();
+					//preparar a query
+					pst = con.prepareStatement(delete);
+					pst.setString(1, txtID.getText());
+					//executar query
+					pst.executeUpdate();
+					//confirmar para o user
+					JOptionPane.showMessageDialog(null, "Usuario excluido");
+					//limpar campos
+					limparCampos();
+					//fechar conexao
+					con.close();
+					
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			}
+		}//Fim do método excluir contato
 }
