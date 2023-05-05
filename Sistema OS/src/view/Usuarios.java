@@ -38,6 +38,10 @@ public class Usuarios extends JDialog {
 	private ResultSet rs;
 	private Connection con;
 	DAO dao = new DAO();
+	private JButton btnExcluir;
+	private JButton btnEditar;
+	private JButton btnAdicionar;
+	private JButton btnPesquisar;
 
 	/**
 	 * Launch the application.
@@ -64,7 +68,10 @@ public class Usuarios extends JDialog {
 		txtNome.setText(null);
 		txtLogin.setText(null);
 		passwordSenha.setText(null);
-
+		btnAdicionar.setEnabled(false);
+		btnEditar.setEnabled(false);
+		btnExcluir.setEnabled(false);
+		btnPesquisar.setEnabled(true);
 	}// FIM DO MÉTODO LIMPAR CAMPOS
 
 	/**
@@ -140,7 +147,7 @@ public class Usuarios extends JDialog {
 		panel.add(lblLogo);
 		lblLogo.setIcon(new ImageIcon(Usuarios.class.getResource("/img/icon.png")));
 
-		JButton btnPesquisar = new JButton("");
+		btnPesquisar = new JButton("");
 		btnPesquisar.setContentAreaFilled(false);
 		btnPesquisar.setBounds(286, 42, 32, 32);
 		getContentPane().add(btnPesquisar);
@@ -159,7 +166,8 @@ public class Usuarios extends JDialog {
 		// substituir o click pela tecla <ENTER> em um botão
 		getRootPane().setDefaultButton(btnPesquisar);
 
-		JButton btnAdicionar = new JButton("");
+		btnAdicionar = new JButton("");
+		btnAdicionar.setEnabled(false);
 		btnAdicionar.setBorderPainted(false);
 		btnAdicionar.setBounds(279, 110, 32, 32);
 		getContentPane().add(btnAdicionar);
@@ -173,7 +181,8 @@ public class Usuarios extends JDialog {
 		btnAdicionar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/addCNTT.png")));
 		btnAdicionar.setToolTipText("Adicionar novo usuario");
 
-		JButton btnEditar = new JButton("");
+		btnEditar = new JButton("");
+		btnEditar.setEnabled(false);
 		btnEditar.setBorderPainted(false);
 		btnEditar.setBounds(310, 110, 32, 32);
 		getContentPane().add(btnEditar);
@@ -202,7 +211,8 @@ public class Usuarios extends JDialog {
 		btnApagar.setContentAreaFilled(false);
 		btnApagar.setIcon(new ImageIcon(Usuarios.class.getResource("/img/erasera.png")));
 		
-		JButton btnExcluir = new JButton("");
+		btnExcluir = new JButton("");
+		btnExcluir.setEnabled(false);
 		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -245,9 +255,13 @@ public class Usuarios extends JDialog {
 				txtNome.setText(rs.getString(2)); // 2º Campo da Tabela ID
 				txtLogin.setText(rs.getString(3)); // 3º Campo da Tabela ID
 				passwordSenha.setText(rs.getString(4)); // 4º Campo da Tabela ID
+				btnEditar.setEnabled(true);
+				btnExcluir.setEnabled(true);
 			} else {
 				// System.out.println("Contaos não cadastrados");
 				JOptionPane.showMessageDialog(null, "Usuario inexistente");
+				btnAdicionar.setEnabled(true);
+				btnPesquisar.setEnabled(true);
 			}
 			con.close();
 		} catch (Exception e) {
