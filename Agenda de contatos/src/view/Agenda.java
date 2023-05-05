@@ -41,6 +41,9 @@ public class Agenda extends JFrame {
 	private JTextField txtNome;
 	private JTextField txtEmail;
 	private JLabel lblStatus;
+	private JButton btnAdicionar;
+	private JButton btnDeletar;
+	private JButton btnEditar;
 
 	/**
 	 * Launch the application.
@@ -128,7 +131,8 @@ public class Agenda extends JFrame {
 		//uso do Validador
 		txtEmail.setDocument(new Validador(50));
 
-		JButton btnAdicionar = new JButton("");
+		btnAdicionar = new JButton("");
+		btnAdicionar.setEnabled(false);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adicionar();
@@ -143,7 +147,8 @@ public class Agenda extends JFrame {
 		btnAdicionar.setBounds(21, 137, 48, 48);
 		contentPane.add(btnAdicionar);
 
-		JButton btnDeletar = new JButton("");
+		btnDeletar = new JButton("");
+		btnDeletar.setEnabled(false);
 		btnDeletar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				excluirContato();
@@ -157,7 +162,8 @@ public class Agenda extends JFrame {
 		btnDeletar.setBounds(112, 137, 48, 48);
 		contentPane.add(btnDeletar);
 
-		JButton btnEditar = new JButton("");
+		btnEditar = new JButton("");
+		btnEditar.setEnabled(false);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editarContato();
@@ -240,6 +246,10 @@ public class Agenda extends JFrame {
 		txtFone.setText(null);
 		txtNome.setText(null);
 		txtEmail.setText(null);
+		btnAdicionar.setEnabled(false);
+		btnEditar.setEnabled(false);
+		btnDeletar.setEnabled(false);
+		
 	}// FIM DO MÉTODO LIMPAR CAMPOS
 
 	/**
@@ -295,9 +305,14 @@ public class Agenda extends JFrame {
 				txtID.setText(rs.getString(1)); // 1º Campo da Tabela ID
 				txtFone.setText(rs.getString(3)); // 3º Campo da Tabela ID
 				txtEmail.setText(rs.getString(4)); // 4º Campo da Tabela ID
+				//validação (liberação dos botões alterar e excluir)
+				btnEditar.setEnabled(true);
+				btnDeletar.setEnabled(true);
 			} else {
-				// System.out.println("Contaos não cadastrados");
+				//se nao existir um contato no banco
+				// System.out.println("Contatos não cadastrados");
 				JOptionPane.showMessageDialog(null, "Contato inexistente");
+				btnAdicionar.setEnabled(true);
 			}
 			con.close();
 		} catch (Exception e) {
