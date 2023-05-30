@@ -74,12 +74,12 @@ public class Principal extends JFrame {
 				}
 			});
 		
-			setLocationRelativeTo(null);
 		setTitle("SP Assistencia Eletrodomésticos");
 		setBounds(100, 100, 639, 479);
 		contentPane = new JPanel();
 		contentPane.setBackground(SystemColor.window);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -154,6 +154,14 @@ public class Principal extends JFrame {
 		contentPane.add(lblLOGO);
 		
 		JButton btnClientes = new JButton("");
+		btnClientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Clientes cliente = new Clientes();
+				cliente.setVisible(true);
+				
+
+			}
+		});
 		btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/oi-removebg-preview.png")));
 		btnClientes.setToolTipText("Clientes");
@@ -211,7 +219,7 @@ public class Principal extends JFrame {
 				// System.out.println("Erro de conexão");
 				lblStatus.setIcon(new ImageIcon(Principal.class.getResource("/img/dataoff.png")));
 			} else {
-				// System.out.println("Banco conectado");
+			// System.out.println("Banco conectado");
 				lblStatus.setIcon(new ImageIcon(Principal.class.getResource("/img/dataon.png")));
 			}
 			// Nunca esquecer de fechar a conexão
