@@ -220,6 +220,10 @@ public class Servicos extends JDialog {
 						lblIdDoCliente.setBounds(10, 51, 25, 14);
 						panel.add(lblIdDoCliente);
 						lblIdDoCliente.setFont(new Font("Arial", Font.PLAIN, 14));
+						
+						JLabel lblNewLabel = new JLabel("daora");
+						lblNewLabel.setBounds(402, 214, 46, 14);
+						getContentPane().add(lblNewLabel);
 
 	}
 
