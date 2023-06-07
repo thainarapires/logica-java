@@ -113,12 +113,18 @@ public class Usuarios extends JDialog {
 
 			}
 		});
-		
+
 		scrollPaneUsers = new JScrollPane();
 		scrollPaneUsers.setBounds(13, 143, 233, 37);
 		getContentPane().add(scrollPaneUsers);
-		
+
 		listUsers = new JList();
+		listUsers.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscarUsuarioLista();
+			}
+		});
 		listUsers.setBorder(null);
 		scrollPaneUsers.setViewportView(listUsers);
 		txtNome.setBounds(12, 112, 236, 32);
@@ -289,6 +295,9 @@ public class Usuarios extends JDialog {
 				btnPesquisar.setEnabled(true);
 			}
 			con.close();
+		
+		
+		
 		} catch (Exception e) {
 			System.out.println(e);
 
@@ -336,9 +345,13 @@ public class Usuarios extends JDialog {
 				// fechar conection
 				con.close();
 
-			} catch (Exception e) {
-				System.out.println(e);
-			}
+			} catch (java.sql.SQLIntegrityConstraintViolationException e1) {
+				JOptionPane.showMessageDialog(null, "Usuário não adicionado.\nEste login já está sendo utilizado.");
+				txtLogin.setText(null);
+				txtLogin.requestFocus();
+			} catch (Exception e2) {
+				System.out.println(e2);
+		}
 		}
 
 	}// fim do método add
@@ -444,5 +457,64 @@ public class Usuarios extends JDialog {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
+		}
+
+	private void buscarUsuarioLista() {
+
+		// System.out.println("teste");
+
+		// variavel que captuar o indice da linha da lista
+
+		int linha = listUsers.getSelectedIndex();
+
+		if (linha >= 0) {
+
+			// String readBuscaLista=
+
+			// Query (instrução sql)
+
+			// limite " , 1" -> selecionar o indice 0 e 1 usuario da lista
+
+			String readBuscaLista = "select *from clientes where nome like '" + txtNome.getText() + "%'"
+
+					+ "order by nome limit " + (linha) + " ,1";
+
+			try {
+
+				con = dao.conectar();
+
+				pst = con.prepareStatement(readBuscaLista);
+
+				rs = pst.executeQuery();
+
+				if (rs.next()) {
+
+					scrollPaneUsers.setVisible(false);
+					
+					txtID.setText(rs.getString(1));
+					txtNome.setText(rs.getString(2));
+					txtLogin.setText(rs.getString(3));
+					passwordSenha.setText(rs.getString(4));
+				} else {
+
+					// System.out.println("Contatos não cadastrados");
+
+					JOptionPane.showMessageDialog(null, "Usuario inexistente");
+
+				}
+
+				con.close();
+
+			} catch (Exception e) {
+
+			}
+
+		} else {
+
+			scrollPaneUsers.setVisible(false);
+
+		}
 	}
+	
+
 }

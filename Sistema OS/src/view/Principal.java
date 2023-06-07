@@ -174,6 +174,12 @@ public class Principal extends JFrame {
 		contentPane.add(lblClientes);
 		
 		JButton btnUsuarios_2 = new JButton("");
+		btnUsuarios_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Servicos servicos = new Servicos();
+				servicos.setVisible(true);
+			}
+		});
 		btnUsuarios_2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUsuarios_2.setIcon(new ImageIcon(Principal.class.getResource("/img/4960335_cogwheel_gear_setting_wrench_icon.png")));
 		btnUsuarios_2.setToolTipText("Serviços");

@@ -7,6 +7,8 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,13 +16,16 @@ import java.sql.ResultSet;
 import java.util.Iterator;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.dom4j.Document;
@@ -29,6 +34,8 @@ import org.dom4j.io.SAXReader;
 
 import model.DAO;
 import utils.Validador;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Clientes extends JDialog {
 	private JTextField txtNome;
@@ -54,6 +61,9 @@ public class Clientes extends JDialog {
 	private JTextField txtCEP;
 	private JTextField txtCidade;
 	private JComboBox cboUF;
+	private JScrollPane scrollPaneClientes;
+	private JScrollPane scrollPaneClient;
+	private JList listClient;
 	/**
 	 * Launch the application.
 	 */
@@ -75,10 +85,30 @@ public class Clientes extends JDialog {
 	 * Create the dialog.
 	 */
 	public Clientes() {
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				scrollPaneClient.setVisible(false);
+			}
+		});
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Clientes.class.getResource("/img/Clientee.png")));
 		setTitle("Cadastro de Clientes");
 		getContentPane().setBackground(Color.WHITE);
 		getContentPane().setLayout(null);
+		
+		scrollPaneClient = new JScrollPane();
+		scrollPaneClient.setVisible(false);
+		scrollPaneClient.setBounds(20, 95, 416, 32);
+		getContentPane().add(scrollPaneClient);
+		
+		listClient = new JList();
+		listClient.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				buscarCliente();
+			}
+		});
+		scrollPaneClient.setViewportView(listClient);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(0, 0, 734, 37);
@@ -104,6 +134,12 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblCPF);
 		
 		txtNome = new JTextField();
+		txtNome.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				listarClientes();
+			}
+		});
 		txtNome.setBounds(20, 70, 416, 27);
 		getContentPane().add(txtNome);
 		txtNome.setColumns(10);
@@ -192,23 +228,7 @@ public class Clientes extends JDialog {
 		panel_1.setBounds(0, 431, 708, 37);
 		getContentPane().add(panel_1);
 		
-		JButton btnBuscar = new JButton("");
-		btnBuscar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				buscar();
-				
-			}
-		});
-		btnBuscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnBuscar.setBorderPainted(false);
-		btnBuscar.setContentAreaFilled(false);
-		btnBuscar.setIcon(new ImageIcon(Clientes.class.getResource("/img/LUPA32px.png")));
-		btnBuscar.setToolTipText("Pesquisar cliente");
-		btnBuscar.setBounds(674, 70, 32, 32);
-		getContentPane().add(btnBuscar);
-		
 		btnEditar = new JButton("");
-		btnEditar.setEnabled(false);
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editar();
@@ -224,7 +244,6 @@ public class Clientes extends JDialog {
 		
 		
 		btnAdicionar = new JButton("");
-		btnAdicionar.setEnabled(false);
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			adicionar();
@@ -239,7 +258,6 @@ public class Clientes extends JDialog {
 		getContentPane().add(btnAdicionar);
 		
 		btnExcluir = new JButton("");
-		btnExcluir.setEnabled(false);
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			excluir();
@@ -281,7 +299,6 @@ public class Clientes extends JDialog {
 		getContentPane().add(txtID);
 		setBounds(100, 100, 732, 503);
 		setLocationRelativeTo(null);
-		getRootPane().setDefaultButton(btnBuscar);
 		
 		JLabel lblEndereco = new JLabel("Endereço*");
 		lblEndereco.setForeground(Color.BLACK);
@@ -374,70 +391,11 @@ public class Clientes extends JDialog {
 		txtEndereco.setText(null);
 		txtCEP.setText(null);
 		
-		btnAdicionar.setEnabled(false);
-		btnEditar.setEnabled(false);
-		btnExcluir.setEnabled(false);
-	
+		
 		
 	
 	}
-	private void buscar() {
-
-		// System.out.println("Teste do botão buscar");
-
-		// Criar uma variável com a query (instrução do banco)
-
-		// Tratamento de exceções
-		String read = "select * from clientes where nome = ?";
-		try {
-			// abrir a conexão
-			con = dao.conectar();
-			// preparar a execucão da query( instrução sql - CRUD Read)
-			// o parâmetro 1 substitui a ? pelo conteúdo da caixa de texto
-			pst = con.prepareStatement(read);
-			pst.setString(1, txtNome.getText());
-			// executar a query e buscar o resultado
-			rs = pst.executeQuery();
-			// uso da estrutura if else para verificar se existe o contato
-			// rs.next() -> se existir um contato no banco
-			if (rs.next()) {
-				// preencher as caixas de texto com as informações
-
-				txtID.setText(rs.getString(1)); // 1º Campo da Tabela ID
-				txtNome.setText(rs.getString(2)); // 2º Campo da Tabela ID
-				txtCPF.setText(rs.getString(3)); // 3º Campo da Tabela ID
-				txtRG.setText(rs.getString(4)); // 4º Campo da Tabela ID
-				txtCNPJ.setText(rs.getString(5)); // 4º Campo da Tabela ID
-				txtEndereco.setText(rs.getString(6)); // 4º Campo da Tabela ID
-				txtNumero.setText(rs.getString(7)); // 4º Campo da Tabela ID
-				txtComplemento.setText(rs.getString(8)); // 4º Campo da Tabela ID
-				txtBairro.setText(rs.getString(9)); // 4º Campo da Tabela ID
-				txtCEP.setText(rs.getString(10)); // 4º Campo da Tabela ID
-				txtCidade.setText(rs.getString(11)); // 4º Campo da Tabela ID
-				
-				cboUF.setSelectedItem(rs.getString(12)); // 4º Campo da Tabela ID	
-				
-				txtTelefone.setText(rs.getString(13)); // 4º Campo da Tabela ID
-				txtEmail.setText(rs.getString(14)); // 4º Campo da Tabela ID
-				
-				btnEditar.setEnabled(true);
-				btnExcluir.setEnabled(true);
-							
-			} else {
-				// System.out.println("Contaos não cadastrados");
-				JOptionPane.showMessageDialog(null, "Cliente inexistente");
-				btnAdicionar.setEnabled(true);
-				
-				
 	
-			}
-			con.close();
-		} catch (Exception e) {
-			System.out.println(e);
-
-		}
-
-	}
 	private void adicionar() {
 		
 		// System.out.println("Teste");
@@ -472,6 +430,7 @@ public class Clientes extends JDialog {
 		} else if (txtEmail.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o email");
 			txtEmail.requestFocus();
+		
 		
 			
 		} else {
@@ -510,16 +469,26 @@ public class Clientes extends JDialog {
 				// fechar conection
 				con.close();
 
-			} catch (Exception e) {
-				System.out.println(e);
-			}
+			} catch (java.sql.SQLIntegrityConstraintViolationException e1) {
+				JOptionPane.showMessageDialog(null, "Cliente não adicionado.\nEste CPF, RG ou EMAIL já está sendo utilizado.");
+				txtCPF.setText(null);
+				txtCPF.requestFocus();
+				txtRG.setText(null);
+				txtCPF.requestFocus();
+				txtEmail.setText(null);
+				txtEmail.requestFocus();
+			
+			} catch (Exception e2) {
+				System.out.println(e2);
 		}
-
+		}
+		
 	}
 	private void editar() {
 		
 		// System.out.println("teste do botão editar");
 		// validar campos obrigatorios
+		
 		if (txtNome.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o nome");
 			txtNome.requestFocus();
@@ -660,4 +629,147 @@ public class Clientes extends JDialog {
 				System.out.println(e);
 		}
 	}
+	private void listarClientes() {
+
+		// System.out.println("teste");
+
+		 
+
+		// linha abaixo cria um objeto usando como referencia um vetor dinamico , este
+
+		// objeto ira temporariamente armazenar os nomes
+
+		DefaultListModel<String> modelo = new DefaultListModel<>();
+
+		// setar a lista -> modelo
+
+		listClient.setModel(modelo);
+
+		// Query (instrução sql)
+
+		String readLista = "select *from clientes where nome like '" + txtNome.getText() + "%'" + "order by nome";
+
+		try {
+
+		con = dao.conectar();
+
+		pst = con.prepareStatement(readLista);
+
+		rs = pst.executeQuery();
+
+		// uso do while para trazer os usuarios enquanto exix=stir
+
+		while (rs.next()) {
+
+		// mostrar a barra de rolagem(scrollpane)
+
+		scrollPaneClient.setVisible(true);
+
+		// adcionar os usuarios novertor -> lista
+
+		modelo.addElement(rs.getString(2));
+
+		 
+
+		if (txtNome.getText().isEmpty()) {
+
+		scrollPaneClient.setVisible(false);
+
+		}
+
+		 
+
+		} // fechar a conexão
+
+		con.close();
+
+		} catch (Exception e) {
+
+		System.out.println(e);
+
+		}
+
+		 
+
+	}
+	private void buscarCliente() {
+
+		// System.out.println("teste");
+
+		// variavel que captuar o indice da linha da lista
+
+		int linha = listClient.getSelectedIndex();
+
+		if (linha >= 0) {
+
+		// String readBuscaLista=
+
+		// Query (instrução sql)
+
+		// limite " , 1" -> selecionar o indice 0 e 1 usuario da lista
+
+		String readBuscaLista = "select *from clientes where nome like '" + txtNome.getText() + "%'"
+
+		+ "order by nome limit " + (linha) + " ,1";
+
+		try {
+
+		con = dao.conectar();
+
+		pst = con.prepareStatement(readBuscaLista);
+
+		rs = pst.executeQuery();
+
+		if (rs.next()) {
+
+		scrollPaneClient.setVisible(false);
+
+		txtID.setText(rs.getString(1)); // 1º Campo da Tabela ID
+		txtNome.setText(rs.getString(2)); // 2º Campo da Tabela ID
+		txtCPF.setText(rs.getString(3)); // 3º Campo da Tabela ID
+		txtRG.setText(rs.getString(4)); // 4º Campo da Tabela ID
+		txtCNPJ.setText(rs.getString(5)); // 4º Campo da Tabela ID
+		txtEndereco.setText(rs.getString(6)); // 4º Campo da Tabela ID
+		txtNumero.setText(rs.getString(7)); // 4º Campo da Tabela ID
+		txtComplemento.setText(rs.getString(8)); // 4º Campo da Tabela ID
+		txtBairro.setText(rs.getString(9)); // 4º Campo da Tabela ID
+		txtCEP.setText(rs.getString(10)); // 4º Campo da Tabela ID
+		txtCidade.setText(rs.getString(11)); // 4º Campo da Tabela ID
+		
+		cboUF.setSelectedItem(rs.getString(12)); // 4º Campo da Tabela ID	
+		
+		txtTelefone.setText(rs.getString(13)); // 4º Campo da Tabela ID
+		txtEmail.setText(rs.getString(14)); // 4º Campo da Tabela ID
+
+		 
+
+		} else {
+
+		// System.out.println("Contatos não cadastrados");
+
+		JOptionPane.showMessageDialog(null, "Usuario inexistente");
+
+		 
+
+		}
+
+		con.close();
+
+		} catch (Exception e) {
+
+		 
+
+		}
+
+		 
+
+		} else {
+
+		scrollPaneClient.setVisible(false);
+
+		 
+
+		}
+	}
+	
 }//fim do codigo
