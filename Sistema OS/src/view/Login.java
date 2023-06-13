@@ -133,9 +133,9 @@ public class Login extends JFrame {
 			JOptionPane.showMessageDialog(null, "Preencha a senha");
 			txtSenha.requestFocus();
 		} else {
-			// logica principal
+			// logica principal 
 
-			String read = "select * from usuarios where login =? and senha=md5(?)";
+			String read = "select * from usuarios where login =? and senha=?";
 			try {
 				con = dao.conectar();
 				// preparar a execução da query (instrução sql, CRUD CREATE)

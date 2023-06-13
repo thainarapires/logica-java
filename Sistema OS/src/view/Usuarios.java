@@ -115,6 +115,7 @@ public class Usuarios extends JDialog {
 		});
 
 		scrollPaneUsers = new JScrollPane();
+		scrollPaneUsers.setVisible(false);
 		scrollPaneUsers.setBounds(13, 143, 233, 37);
 		getContentPane().add(scrollPaneUsers);
 
@@ -324,7 +325,7 @@ public class Usuarios extends JDialog {
 		} else {
 			// lógica principal
 			// CRUD Create
-			String create = "insert into usuarios(nome,login,senha) values (?,?, md5(?))";
+			String create = "insert into usuarios(nome,login,senha) values (?,?, ?)";
 			// tratamento de exceções
 
 			try {

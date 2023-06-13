@@ -192,6 +192,12 @@ public class Principal extends JFrame {
 		contentPane.add(lblMenu_2);
 		
 		JButton btnUsuarios_3 = new JButton("");
+		btnUsuarios_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Relatorios relatorios = new Relatorios();
+				relatorios.setVisible(true);
+			}
+		});
 		btnUsuarios_3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnUsuarios_3.setIcon(new ImageIcon(Principal.class.getResource("/img/2931174_clipboard_copy_paste_analysis_report_icon.png")));
 		btnUsuarios_3.setToolTipText("Relatórios");

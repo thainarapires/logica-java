@@ -1,34 +1,41 @@
 package view;
 
-import java.awt.EventQueue;
-
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JTextField;
-
-import model.DAO;
-
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.awt.event.ActionEvent;
-import java.awt.SystemColor;
 import java.awt.Color;
-import javax.swing.JPanel;
-import javax.swing.border.TitledBorder;
-import javax.swing.JList;
+import java.awt.Cursor;
+import java.awt.Desktop;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import model.DAO;
+import javax.swing.ImageIcon;
 
 public class Servicos extends JDialog {
 
@@ -80,7 +87,7 @@ public class Servicos extends JDialog {
 		});
 		getContentPane().setBackground(new Color(249, 249, 249));
 		setModal(true);
-		setBounds(100, 100, 541, 328);
+		setBounds(100, 100, 541, 299);
 		getContentPane().setLayout(null);
 		setLocationRelativeTo(null);
 
@@ -132,6 +139,7 @@ public class Servicos extends JDialog {
 		getContentPane().add(txtValor);
 
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnBuscar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				buscarOS();
@@ -141,17 +149,21 @@ public class Servicos extends JDialog {
 		btnBuscar.setBounds(116, 41, 77, 23);
 		getContentPane().add(btnBuscar);
 
-		JButton btnAdd = new JButton("Adicionar");
+		JButton btnAdd = new JButton("");
+		btnAdd.setIcon(new ImageIcon(Servicos.class.getResource("/img/adicionarrr.png")));
+		btnAdd.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				adicionar();
 			}
 		});
 		btnAdd.setToolTipText("Adicionar");
-		btnAdd.setBounds(20, 242, 111, 36);
+		btnAdd.setBounds(227, 198, 48, 48);
 		getContentPane().add(btnAdd);
 
-		JButton btnEditar = new JButton("Editar");
+		JButton btnEditar = new JButton("");
+		btnEditar.setIcon(new ImageIcon(Servicos.class.getResource("/img/editarrr.png")));
+		btnEditar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnEditar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editarOS();
@@ -159,35 +171,37 @@ public class Servicos extends JDialog {
 			}
 		});
 		btnEditar.setToolTipText("Editar");
-		btnEditar.setBounds(152, 242, 102, 36);
+		btnEditar.setBounds(285, 198, 48, 48);
 		getContentPane().add(btnEditar);
 
-		JButton btnExcluir = new JButton("Excluir");
+		JButton btnExcluir = new JButton("");
+		btnExcluir.setIcon(new ImageIcon(Servicos.class.getResource("/img/trashhh.png")));
+		btnExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExcluir.setToolTipText("Excluir");
 		btnExcluir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				excluirOS();
 			}
 		});
-		btnExcluir.setBounds(274, 242, 102, 36);
+		btnExcluir.setBounds(346, 198, 48, 48);
 		getContentPane().add(btnExcluir);
 
 		txtDeffeito = new JTextField();
 		txtDeffeito.setColumns(10);
 		txtDeffeito.setBounds(20, 155, 490, 20);
 		getContentPane().add(txtDeffeito);
-		
+
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder(null, "Cliente", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		panel.setBounds(343, 11, 167, 80);
 		getContentPane().add(panel);
 		panel.setLayout(null);
-		
+
 		scrollPaneCli = new JScrollPane();
 		scrollPaneCli.setVisible(false);
 		scrollPaneCli.setBounds(10, 40, 139, 29);
 		panel.add(scrollPaneCli);
-		
+
 		ListCli = new JList();
 		ListCli.addMouseListener(new MouseAdapter() {
 			@Override
@@ -196,39 +210,58 @@ public class Servicos extends JDialog {
 			}
 		});
 		scrollPaneCli.setViewportView(ListCli);
-		
+
 		txtCliente = new JTextField();
 		txtCliente.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				listarClientes();
 			}
-		
-		
+
 		});
 		txtCliente.setBounds(10, 22, 139, 20);
 		panel.add(txtCliente);
 		txtCliente.setColumns(10);
-		
-				txtID = new JTextField();
-				txtID.setEditable(false);
-				txtID.setBounds(31, 49, 60, 20);
-				panel.add(txtID);
-				txtID.setColumns(10);
-				
-						JLabel lblIdDoCliente = new JLabel("ID:");
-						lblIdDoCliente.setBounds(10, 51, 25, 14);
-						panel.add(lblIdDoCliente);
-						lblIdDoCliente.setFont(new Font("Arial", Font.PLAIN, 14));
-						
-						JLabel lblNewLabel = new JLabel("daora");
-						lblNewLabel.setBounds(402, 214, 46, 14);
-						getContentPane().add(lblNewLabel);
+
+		txtID = new JTextField();
+		txtID.setEditable(false);
+		txtID.setBounds(31, 49, 60, 20);
+		panel.add(txtID);
+		txtID.setColumns(10);
+
+		JLabel lblIdDoCliente = new JLabel("ID:");
+		lblIdDoCliente.setBounds(10, 51, 25, 14);
+		panel.add(lblIdDoCliente);
+		lblIdDoCliente.setFont(new Font("Arial", Font.PLAIN, 14));
+
+		JButton btnLimpar = new JButton("");
+		btnLimpar.setIcon(new ImageIcon(Servicos.class.getResource("/img/borracha.png")));
+		btnLimpar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnLimpar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				limparCampos();
+			}
+		});
+		btnLimpar.setToolTipText("Limpar todos o campos");
+		btnLimpar.setBounds(404, 198, 48, 48);
+		getContentPane().add(btnLimpar);
+
+		JButton btnImprimir = new JButton("");
+		btnImprimir.setToolTipText("Imprimir esta OS");
+		btnImprimir.setIcon(new ImageIcon(Servicos.class.getResource("/img/printer.png")));
+		btnImprimir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				imprimirOS();
+			}
+		});
+		btnImprimir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnImprimir.setBounds(462, 198, 48, 48);
+		getContentPane().add(btnImprimir);
 
 	}
 
 	private void buscarOS() {
-		//captura do numero a OS (sem usar caixa de txt)
+		// captura do numero a OS (sem usar caixa de txt)
 		String numOS = JOptionPane.showInputDialog("Número da OS ");
 
 		// System.out.println("Teste do botão buscar");
@@ -243,8 +276,8 @@ public class Servicos extends JDialog {
 			// preparar a execucão da query( instrução sql - CRUD Read)
 			// o parâmetro 1 substitui a ? pelo conteúdo da caixa de texto
 			pst = con.prepareStatement(read);
-			
-			//SUBSTITUI A ? PELO NÚMERO DA OS
+
+			// SUBSTITUI A ? PELO NÚMERO DA OS
 			pst.setString(1, numOS);
 			// executar a query e buscar o resultado
 			rs = pst.executeQuery();
@@ -278,11 +311,10 @@ public class Servicos extends JDialog {
 
 	private void adicionar() {// Criar váriavel/objeto para capturar a senha
 
-		
 		// System.out.println("Teste");
 		// validação de campos obrigatórios
 
-		if  (txtEquipamento.getText().isEmpty()) {
+		if (txtEquipamento.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(null, "Preencha o equipamento");
 			txtEquipamento.requestFocus();
 		} else if (txtDeffeito.getText().isEmpty()) {
@@ -368,12 +400,11 @@ public class Servicos extends JDialog {
 				// fechar conexao
 				con.close();
 
-				
 			} catch (java.sql.SQLIntegrityConstraintViolationException e1) {
 				JOptionPane.showMessageDialog(null, "Cliente não editado.\nEsta OS já está sendo utilizada.");
 				txtOS.setText(null);
 				txtOS.requestFocus();
-				
+
 			} catch (Exception e) {
 				System.out.println(e);
 			}
@@ -385,35 +416,53 @@ public class Servicos extends JDialog {
 	private void excluirOS() {
 		// System.out.println("teste");
 		// validação de exclusao - a variável confirma captura a opção escolhida.
-		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão desta OS?", "Atenção",
-				JOptionPane.YES_NO_OPTION);
-		if (confirma == JOptionPane.YES_OPTION) {
-			// CRUD - Delete vai excluir o contato
-			String delete = "delete from servicos where os=?";
-			// tratamento de exceção
-			try {
-				// abrir conexão
-				con = dao.conectar();
-				// preparar a query
-				pst = con.prepareStatement(delete);
-				pst.setString(1, txtOS.getText());
-				// executar query
-				pst.executeUpdate();
-				// confirmar para o user
-				JOptionPane.showMessageDialog(null, "OS excluida");
-				// limpar campos
-				limparCampos();
-				// fechar conexao
-				con.close();
 
-			} catch (Exception e) {
-				System.out.println(e);
+		if (txtEquipamento.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo do equipamento");
+			txtEquipamento.requestFocus();
+
+		} else if (txtDeffeito.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo defeito");
+			txtDeffeito.requestFocus();
+
+		} else if (txtValor.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo valor");
+			txtValor.requestFocus();
+
+		} else {
+
+			int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão desta OS?", "Atenção",
+					JOptionPane.YES_NO_OPTION);
+
+			if (confirma == JOptionPane.YES_OPTION) {
+				// CRUD - Delete vai excluir o contato
+				String delete = "delete from servicos where os=?";
+				// tratamento de exceção
+				try {
+					// abrir conexão
+					con = dao.conectar();
+					// preparar a query
+					pst = con.prepareStatement(delete);
+					pst.setString(1, txtOS.getText());
+					// executar query
+					pst.executeUpdate();
+					// confirmar para o user
+					JOptionPane.showMessageDialog(null, "OS excluida");
+					// limpar campos
+					limparCampos();
+					// fechar conexao
+					con.close();
+
+				} catch (Exception e) {
+					System.out.println(e);
+				}
 			}
 		}
 	}
+
 	private void limparCampos() {
-		//teste
-		//System.out.println("Teste");
+		// teste
+		// System.out.println("Teste");
 		txtOS.setText(null);
 		txtData.setText(null);
 		txtEquipamento.setText(null);
@@ -421,13 +470,12 @@ public class Servicos extends JDialog {
 		txtValor.setText(null);
 		txtID.setText(null);
 		txtCliente.setText(null);
-		
-		
-	
+
 	}
+
 	private void listarClientes() {
 		DefaultListModel<String> modelo = new DefaultListModel<>();
-		
+
 		ListCli.setModel(modelo);
 
 		String readLista = "select * from clientes where nome like '" + txtCliente.getText() + "%'" + "order by nome";
@@ -439,15 +487,16 @@ public class Servicos extends JDialog {
 			while (rs.next()) {
 				modelo.addElement(rs.getString(2));
 				scrollPaneCli.setVisible(true);
-				
-				if(txtCliente.getText().isEmpty()) {
+
+				if (txtCliente.getText().isEmpty()) {
 					scrollPaneCli.setVisible(false);
 				}
 			}
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		}
+	}
+
 	private void buscarClienteLista() {
 
 		// System.out.println("teste");
@@ -479,10 +528,10 @@ public class Servicos extends JDialog {
 				if (rs.next()) {
 
 					scrollPaneCli.setVisible(false);
-					
+
 					txtID.setText(rs.getString(1));
 					txtCliente.setText(rs.getString(2));
-	
+
 				} else {
 
 					// System.out.println("Contatos não cadastrados");
@@ -501,6 +550,87 @@ public class Servicos extends JDialog {
 
 			scrollPaneCli.setVisible(false);
 
+		}
+	}
+
+	private void imprimirOS() {
+		// instanciar objeto para usar os métodos da biblioteca
+		Document document = new Document();
+		// documento pdf
+
+		if (txtEquipamento.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo do equipamento");
+			txtEquipamento.requestFocus();
+
+		} else if (txtDeffeito.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo defeito");
+			txtDeffeito.requestFocus();
+
+		} else if (txtValor.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o campo valor");
+			txtValor.requestFocus();
+
+		} else {
+
+			try {
+				// criar um documento em branco (pdf) de nome clientes.pdf
+				PdfWriter.getInstance(document, new FileOutputStream("os.pdf"));
+				// abrir o documento (formatar e inserir o conteúdo)
+				document.open();
+
+				String readOS = "select * from servicos where os = ?";
+
+				// conexão com o banco
+				try {
+					// abrir a conexão
+					con = dao.conectar();
+					// preparar a execução da query (instrução sql)
+					pst = con.prepareStatement(readOS);
+					pst.setString(1, txtOS.getText());
+					// executar a query
+					rs = pst.executeQuery();
+					// se existir a OS
+					if (rs.next()) {
+						// document.add(new Paragraph("OS: " + rs.getString(1)));
+						Paragraph os = new Paragraph("OS: " + rs.getString(1));
+						os.setAlignment(Element.ALIGN_RIGHT);
+						document.add(os);
+
+						Paragraph equipamento = new Paragraph("Equipamento: " + rs.getString(3));
+						equipamento.setAlignment(Element.ALIGN_LEFT);
+						document.add(equipamento);
+
+						Paragraph defeito = new Paragraph("Defeito: " + rs.getString(4));
+						defeito.setAlignment(Element.ALIGN_LEFT);
+						document.add(defeito);
+
+						// imprimir imagens
+						Image imagem = Image.getInstance(Servicos.class.getResource("/img/ossss.png"));
+
+						// resolucao
+						imagem.scaleToFit(128, 128);
+						// imagem.setAbsolutePosition(20, 500);
+						imagem.setAlignment(Element.ALIGN_CENTER);
+						document.add(imagem);
+
+					}
+					// fechar a conexão com o banco
+					con.close();
+				} catch (Exception e) {
+					System.out.println(e);
+				}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
+			// fechar o documento (pronto para "impressão" (exibir o pdf))
+			document.close();
+			// Abrir o desktop do sistema operacional e usar o leitor padrão
+			// de pdf para exibir o documento
+			try {
+				Desktop.getDesktop().open(new File("os.pdf"));
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 		}
 	}
 }

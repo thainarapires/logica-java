@@ -195,7 +195,7 @@ public class Clientes extends JDialog {
 		
 		txtBairro = new JTextField();
 		txtBairro.setColumns(10);
-		txtBairro.setBounds(252, 187, 169, 27);
+		txtBairro.setBounds(252, 187, 175, 27);
 		getContentPane().add(txtBairro);
 		txtBairro.setDocument(new Validador(30));
 		
@@ -308,7 +308,7 @@ public class Clientes extends JDialog {
 		
 		txtEndereco = new JTextField();
 		txtEndereco.setColumns(10);
-		txtEndereco.setBounds(20, 187, 226, 27);
+		txtEndereco.setBounds(20, 187, 223, 27);
 		getContentPane().add(txtEndereco);
 		txtEndereco.setDocument(new Validador(50));
 		
@@ -474,7 +474,7 @@ public class Clientes extends JDialog {
 				txtCPF.setText(null);
 				txtCPF.requestFocus();
 				txtRG.setText(null);
-				txtCPF.requestFocus();
+				txtRG.requestFocus();
 				txtEmail.setText(null);
 				txtEmail.requestFocus();
 			
@@ -563,26 +563,34 @@ public class Clientes extends JDialog {
 		int confirma = JOptionPane.showConfirmDialog(null, "Confirma a exclusão deste cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
 		if (confirma == JOptionPane.YES_OPTION) {
 			// CRUD - Delete vai excluir o contato
-			String delete = "delete from clientes where idcli=?";
-			//tratamento de exceção
+			
+	         
+			String delete = "delete from clientes where idcli= ?";
+			// tratamento de exceção
 			try {
-				//abrir conexão 
+				// abrir conexão
 				con = dao.conectar();
-				//preparar a query
+				// preparar a query
 				pst = con.prepareStatement(delete);
 				pst.setString(1, txtID.getText());
-				//executar query
+				// executar query
 				pst.executeUpdate();
-				//confirmar para o user
+				// confirmar para o user
 				JOptionPane.showMessageDialog(null, "Cliente excluido com sucesso!");
-				//limpar campos
+				// limpar campos
 				limparCampos();
-				//fechar conexao
+				// fechar conexao
 				con.close();
+
+			} catch (java.sql.SQLIntegrityConstraintViolationException e1) {
+				JOptionPane.showMessageDialog(null, "Cliente não excluido.\nEste cliente tem uma OS pendente.");
+				txtID.setText(null);
+				txtID.requestFocus();
 				
-			} catch (Exception e) {
-				System.out.println(e);
-			}
+			
+			} catch (Exception e2) {
+				System.out.println(e2);
+		}
 		}
 		
 	}//fim do excluir
