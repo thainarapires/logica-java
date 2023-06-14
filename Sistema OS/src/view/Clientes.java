@@ -36,6 +36,11 @@ import model.DAO;
 import utils.Validador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.border.TitledBorder;
+import javax.swing.border.SoftBevelBorder;
+import javax.swing.border.BevelBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.SystemColor;
 
 public class Clientes extends JDialog {
 	private JTextField txtNome;
@@ -134,6 +139,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblCPF);
 		
 		txtNome = new JTextField();
+		txtNome.setBackground(SystemColor.control);
+		txtNome.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtNome.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -158,18 +165,24 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblCnpj);
 		
 		txtCPF = new JTextField();
+		txtCPF.setBackground(SystemColor.control);
+		txtCPF.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtCPF.setColumns(10);
 		txtCPF.setBounds(20, 128, 223, 27);
 		getContentPane().add(txtCPF);
 		txtCPF.setDocument(new Validador(11));
 		
 		txtRG = new JTextField();
+		txtRG.setBackground(SystemColor.control);
+		txtRG.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtRG.setColumns(10);
 		txtRG.setBounds(253, 128, 175, 27);
 		getContentPane().add(txtRG);
 		txtRG.setDocument(new Validador(9));
 		
 		txtCNPJ = new JTextField();
+		txtCNPJ.setBackground(SystemColor.control);
+		txtCNPJ.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtCNPJ.setColumns(10);
 		txtCNPJ.setBounds(434, 129, 234, 27);
 		getContentPane().add(txtCNPJ);
@@ -182,6 +195,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblNumero);
 		
 		txtNumero = new JTextField();
+		txtNumero.setBackground(SystemColor.control);
+		txtNumero.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtNumero.setColumns(10);
 		txtNumero.setBounds(20, 246, 127, 27);
 		getContentPane().add(txtNumero);
@@ -194,6 +209,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblComplemento);
 		
 		txtBairro = new JTextField();
+		txtBairro.setBackground(SystemColor.control);
+		txtBairro.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtBairro.setColumns(10);
 		txtBairro.setBounds(252, 187, 175, 27);
 		getContentPane().add(txtBairro);
@@ -206,6 +223,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblTelCel);
 		
 		txtTelefone = new JTextField();
+		txtTelefone.setBackground(SystemColor.control);
+		txtTelefone.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtTelefone.setColumns(10);
 		txtTelefone.setBounds(20, 305, 314, 27);
 		getContentPane().add(txtTelefone);
@@ -218,6 +237,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblEmail);
 		
 		txtEmail = new JTextField();
+		txtEmail.setBackground(SystemColor.control);
+		txtEmail.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(343, 305, 325, 27);
 		getContentPane().add(txtEmail);
@@ -307,6 +328,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblEndereco);
 		
 		txtEndereco = new JTextField();
+		txtEndereco.setBackground(SystemColor.control);
+		txtEndereco.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtEndereco.setColumns(10);
 		txtEndereco.setBounds(20, 187, 223, 27);
 		getContentPane().add(txtEndereco);
@@ -319,12 +342,16 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblBairro);
 		
 		txtComplemento = new JTextField();
+		txtComplemento.setBackground(SystemColor.control);
+		txtComplemento.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtComplemento.setColumns(10);
 		txtComplemento.setBounds(157, 246, 146, 27);
 		getContentPane().add(txtComplemento);
 		txtNome.setDocument(new Validador(20));
 		
 		txtCEP = new JTextField();
+		txtCEP.setBackground(SystemColor.control);
+		txtCEP.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtCEP.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -355,6 +382,8 @@ public class Clientes extends JDialog {
 		getContentPane().add(lblCidade);
 		
 		txtCidade = new JTextField();
+		txtCidade.setBackground(SystemColor.control);
+		txtCidade.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		txtCidade.setColumns(10);
 		txtCidade.setBounds(434, 188, 234, 27);
 		getContentPane().add(txtCidade);

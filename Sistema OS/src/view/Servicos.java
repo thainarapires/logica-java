@@ -592,17 +592,43 @@ public class Servicos extends JDialog {
 					// se existir a OS
 					if (rs.next()) {
 						// document.add(new Paragraph("OS: " + rs.getString(1)));
+						
+		
+						Paragraph OS = new Paragraph ("SP ASSISTENCIA ELETRODOMÉSTICOS"); 
+						OS.setAlignment(Element.ALIGN_CENTER);
+						document.add(OS);
+						
+						Paragraph space = new Paragraph (" "); 
+						space.setAlignment(Element.ALIGN_MIDDLE);
+						document.add(space);
+						
 						Paragraph os = new Paragraph("OS: " + rs.getString(1));
-						os.setAlignment(Element.ALIGN_RIGHT);
+						os.setAlignment(Element.ALIGN_LEFT);
 						document.add(os);
+						
+						Paragraph space1 = new Paragraph (" "); 
+						space1.setAlignment(Element.ALIGN_MIDDLE);
+						document.add(space1);
+						
+						
 
+						Paragraph data = new Paragraph("Data: " + rs.getString(2));
+						data.setAlignment(Element.ALIGN_LEFT);
+						document.add(data);
+						
 						Paragraph equipamento = new Paragraph("Equipamento: " + rs.getString(3));
 						equipamento.setAlignment(Element.ALIGN_LEFT);
 						document.add(equipamento);
+						
 
 						Paragraph defeito = new Paragraph("Defeito: " + rs.getString(4));
 						defeito.setAlignment(Element.ALIGN_LEFT);
 						document.add(defeito);
+						
+						Paragraph valor = new Paragraph("Valor: " + rs.getString(5));
+						defeito.setAlignment(Element.ALIGN_LEFT);
+						document.add(valor);
+
 
 						// imprimir imagens
 						Image imagem = Image.getInstance(Servicos.class.getResource("/img/ossss.png"));
